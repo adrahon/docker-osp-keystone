@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# fail immediately
+set -o errexit
+
+# Exit on first init
+if [[ ! -z $BOOTSTRAP ]]; then
+    ADMIN_TOKEN=${ADMIN_TOKEN-`openssl rand -hex 10`}
+    openstack-config --set /etc/keystone/keystone.conf DEFAULT admin_token $ADMIN_TOKEN
+    openstack-config --set /etc/keystone/keystone.conf database connection ${CONNECTION-mysql://keystone:password@dbhost/keystone}
+    openstack-config --set /etc/keystone/keystone.conf oslo_messaging_rabbit rabbit_host rabbithost
+    su -s /bin/sh -c "keystone-manage db_sync" keystone;
+fi
+
+# Start the service
+/usr/bin/keystone-all
