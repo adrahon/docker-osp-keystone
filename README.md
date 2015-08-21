@@ -16,7 +16,7 @@ Requires MariaDB and RabbitMQ. Instructions below assume they are also running a
 ### Launch keystone container
 
     export ADMIN_TOKEN=$(openssl rand -hex 10)
-    docker run -d --link mariadb:dbhost --link rabbitmq:rabbithost --env BOOTSTRAP=1 --env ADMIN_TOKEN=$ADMIN_TOKEN -p 5000:5000 --name keystone  osp-keystone
+    docker run -d --link mariadb:dbhost --link rabbitmq:rabbithost --env BOOTSTRAP=1 --env ADMIN_TOKEN=$ADMIN_TOKEN -p 5000:5000 --name keystone  adrahon/docker-osp-keystone
 
 ### Create base services and users in keystone
 
